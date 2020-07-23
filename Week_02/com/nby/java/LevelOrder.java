@@ -14,10 +14,14 @@ public class LevelOrder {
         if (root == null) {
             return res;
         }
+
         queue.add(root);
         while (!queue.isEmpty()) {
             int size = queue.size();
             List<Integer> level = new ArrayList<>();
+            for (Node node : queue) {
+                
+            }
             for (int i = 0; i < size; i ++) {
                 Node node = queue.pop();
                 level.add(node.val);
