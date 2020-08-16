@@ -59,7 +59,7 @@ public class SolveNQueens {
 
     private void addSolution() {
         StringBuilder point = new StringBuilder();
-        point.append(".".repeat(n));
+//        point.append(".".repeat(n));
         List<String> ans = new ArrayList<>();
         for (int queen : queens) {
             StringBuilder temp = new StringBuilder(point);

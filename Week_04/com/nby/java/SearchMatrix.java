@@ -8,6 +8,7 @@ public class SearchMatrix {
         if (matrix.length == 0) {
             return false;
         }
+
         int n = matrix.length, m = matrix[0].length;
         int i = 0, j = n * m - 1;
         while (i <= j) {

@@ -9,7 +9,7 @@ import java.util.Map;
  * @name
  */
 public class LetterCombinations {
-    Map<Character, String> phone = new HashMap<>() {{
+    Map<Character, String> phone = new HashMap<Character, String>() {{
         put('2', "abc");
         put('3', "def");
         put('4', "ghi");
