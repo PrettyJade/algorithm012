@@ -36,15 +36,15 @@ public class CountSubstrings {
         return ans;
     }
 
-    public int countSubstrings(String s) {
+    public int countSubstrings2(String s) {
         int count = 0, n = s.length() * 2 - 1;
-        for (int i = 0; i < n; i ++) {
+        for (int i = 0; i < n; i++) {
             int l = i / 2;
             int r = l + i % 2;
             while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
-                count ++;
-                l --;
-                r ++;
+                count++;
+                l--;
+                r++;
             }
         }
         return count;
@@ -80,16 +80,17 @@ public class CountSubstrings {
         int start = 0, end = 0;
         int sum = 0;
         while (end < nums.length) {
-           sum += nums[end];
+            sum += nums[end];
             while (sum >= s) {
                 minLen = Math.min(minLen, end - start + 1);
-                start ++;
+                start++;
                 sum -= nums[start];
             }
-            end ++;
+            end++;
         }
         return minLen == Integer.MAX_VALUE ? 0 : minLen;
     }
+
     public int minSubArrayLen(int s, int[] nums) {
         // 滑动窗口解法
         if (nums.length == 0) {
@@ -102,12 +103,35 @@ public class CountSubstrings {
             sum += nums[end];
             while (sum >= s) {
                 minLen = Math.min(minLen, end - start + 1);
-                start ++;
+                start++;
                 sum -= nums[start];
             }
-            end ++;
+            end++;
         }
         return minLen == Integer.MAX_VALUE ? 0 : minLen;
+    }
+
+    public int countSubstrings(String s) {
+        StringBuilder builder = new StringBuilder("$#");
+        for (char c : s.toCharArray()) {
+            builder.append(c).append('#');
+        }
+        builder.append('!');
+        int[] dp = new int[builder.length()];
+        int maxI = 0, maxR = 0, ans = 0;
+        for (int i = 1; i < builder.length() - 2; i++) {
+            dp[i] = i <= maxR ? Math.min(dp[maxI * 2 - i], maxR - i + 1) : 1;
+            while (builder.charAt(i + dp[i]) == builder.charAt(i - dp[i])) {
+                dp[i]++;
+            }
+
+            if (i + dp[i] - 1 > maxR) {
+                maxR = i + dp[i] - 1;
+                maxI = i;
+            }
+            ans += dp[i] / 2;
+        }
+        return ans;
     }
 
     public static void main(String[] args) {

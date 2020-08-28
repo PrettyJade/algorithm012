@@ -43,33 +43,67 @@ public class ShortestPathBinaryMatrix {
 
     public int shortestPathBinaryMatrix(int[][] grid) {
         int[][] dirs = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
-        int count = 1;
         int n = grid.length, m = grid[0].length;
         if (grid[0][0] == 1 || grid[n - 1][m - 1] == 1) {
             return -1;
         }
-        grid[0][0] = 1;
-        PriorityQueue<Integer> pathQueue = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Node> pathQueue = new PriorityQueue<>(Collections.reverseOrder());
 
-        pathQueue.offer(0);
+        pathQueue.offer(new Node(0, 0, 1, 0));
         while (!pathQueue.isEmpty()) {
-            int path = pathQueue.poll();
-            int p1 = path / m;
-            int p2 = path % m;
-            if (p1 == n - 1 && p2 == m - 1) {
-
-                return grid[p1][p2];
+            Node node = pathQueue.poll();
+            if (node.x == n - 1 && node.y == m - 1) {
+                return node.path;
             }
+            grid[node.x][node.y] = 1;
+            pathQueue.removeIf((o) -> o.x == node.x && o.y == node.y);
             for (int[] dir : dirs) {
-                int x = p1 + dir[0];
-                int y = p2 + dir[1];
-                if (x < 0 || x == n || y < 0 || y == m || grid[x][y] > 0) {
+                int x = node.x + dir[0];
+                int y = node.y + dir[1];
+                if (x < 0 || x == n || y < 0 || y == m || grid[x][y] == 1) {
                     continue;
                 }
-                grid[x][y] = grid[p1][p2] + 1;
-                pathQueue.offer(x * m + y);
+                int path = node.path + 1;
+
+                pathQueue.offer(new Node(x, y, path, path + Math.max(Math.abs(n - x - 1), Math.abs(m - y - 1))));
             }
         }
         return -1;
+    }
+
+}
+
+
+
+class Node implements Comparable<Node> {
+    int x;
+    int y;
+    int path;
+    int priority;
+
+
+    public Node(int x, int y, int path, int priority) {
+        this.x = x;
+        this.y = y;
+        this.path = path;
+        this.priority = priority;
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "x=" + x +
+                ", y=" + y +
+                ", path=" + path +
+                ", priority=" + priority +
+                '}';
+    }
+
+    public boolean equals(Node o) {
+        return this.x == o.x && this.y == o.y;
+    }
+    @Override
+    public int compareTo(Node o) {
+        return this.priority - o.priority;
     }
 }
