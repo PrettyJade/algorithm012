@@ -135,7 +135,7 @@ public class CountSubstrings {
     }
 
     public static void main(String[] args) {
-        CountSubstrings countSubstrings = new CountSubstrings();
+        CountSubstrings2 countSubstrings = new CountSubstrings2();
         countSubstrings.countSubstrings("babab");
     }
 }

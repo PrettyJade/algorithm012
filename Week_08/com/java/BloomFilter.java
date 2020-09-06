@@ -158,7 +158,7 @@ public class BloomFilter implements Cloneable {
 
     public static void main(String[] args) {
         BloomFilter filter = new BloomFilter(2, 8);
-        filter.add(3);
+//        filter.add(3);
         try {
             Thread.sleep(10000000);
         } catch (InterruptedException e) {
